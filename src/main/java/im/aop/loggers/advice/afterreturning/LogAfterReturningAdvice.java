@@ -17,8 +17,8 @@ public class LogAfterReturningAdvice {
   @Autowired
   private LogAfterReturningService logAfterReturningService;
 
-  @Pointcut("execution(public * *(..))")
-  void publicMethod() {
+  @Pointcut("execution(* *(..))")
+  void allMethods() {
   }
 
   @Pointcut("execution(String *.toString())")
@@ -30,7 +30,7 @@ public class LogAfterReturningAdvice {
   }
 
   @AfterReturning(
-      value = "publicMethod() && logAfterReturningMethodContext(logAfterReturning)",
+      value = "allMethods() && logAfterReturningMethodContext(logAfterReturning)",
       argNames = "joinPoint, logAfterReturning, returnValue",
       returning = "returnValue")
   void logAfterReturningMethodContext(
@@ -46,7 +46,7 @@ public class LogAfterReturningAdvice {
 
   @AfterReturning(
       value =
-          "publicMethod() && !toStringMethod() && logAfterReturningClassContext(logAfterReturning)",
+          "allMethods() && !toStringMethod() && logAfterReturningClassContext(logAfterReturning)",
       argNames = "joinPoint, logAfterReturning, returnValue",
       returning = "returnValue")
   void logAfterReturningClassContext(

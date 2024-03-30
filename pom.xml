@@ -6,12 +6,12 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.4</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.github.andylke</groupId>
+  <groupId>eu.ciechanowiec</groupId>
   <artifactId>im-aop-loggers</artifactId>
-  <version>1.1.3</version>
+  <version>1.1.4</version>
 
   <name>I'm AOP Loggers</name>
   <description>A handy and configurable sets of annotation-based loggers for Spring Boot that can
@@ -32,15 +32,21 @@
       <name>Andy Lian</name>
       <email>andylke@gmail.com</email>
     </developer>
+    <developer>
+      <name>Herman Ciechanowiec</name>
+      <email>herman@ciechanowiec.eu</email>
+    </developer>
   </developers>
 
   <scm>
-    <url>https://github.com/andylke/im-aop-loggers.git</url>
+    <url>https://github.com/ciechanowiec/im-aop-loggers.git</url>
   </scm>
 
   <properties>
     <java.version>17</java.version>
     <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
+    <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+    <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -66,7 +72,7 @@
       <artifactId>spring-data-commons</artifactId>
       <scope>provided</scope>
     </dependency>
-  
+
     <!-- apache.commons -->
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -162,41 +168,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>3.0.1</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-            <configuration>
-              <!-- Prevent gpg from using pinentry programs -->
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.13</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
-        </configuration>
-      </plugin>
-
     </plugins>
   </build>
 
@@ -211,4 +182,55 @@
     </repository>
   </distributionManagement>
 
+  <profiles>
+    <!-- Release procedure:
+    1. `mvn clean deploy -P release` -> will perform deploy and release
+    2. Add the following settings to ~/.m2/settings.xml:
+    ****
+    <settings>
+      <servers>
+        <server>
+          <id>ossrh</id>
+          <username>your-jira-id</username>
+          <password>your-jira-pwd</password>
+        </server>
+      </servers>
+    </settings>
+    ****
+    -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <!-- Signs artifacts -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven-gpg-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Deploys to staging environment -->
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>${nexus-staging-maven-plugin.version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

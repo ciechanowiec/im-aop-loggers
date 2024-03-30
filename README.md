@@ -1,7 +1,19 @@
 # I'm AOP Loggers
 
-[![maven central](https://maven-badges.herokuapp.com/maven-central/com.github.andylke/im-aop-loggers/badge.png)](https://maven-badges.herokuapp.com/maven-central/com.github.andylke/im-aop-loggers)
-[![codecov](https://codecov.io/gh/andylke/im-aop-loggers/branch/main/graph/badge.svg?token=ND15KBP0RI)](https://codecov.io/gh/andylke/im-aop-loggers)
+# Fork
+
+This repository is a fork of _I'm AOP Loggers_ library from https://github.com/andylke/im-aop-loggers. In the original program, aspects provided by the library are executed only for methods with `public` visibility. However, in this version of the program they are executed for all methods, regardless of their visibility.
+
+To use the forked version of the library, the following Maven dependency can be added to a project:
+```xml
+<dependency>
+  <groupId>eu.ciechanowiec</groupId>
+  <artifactId>im-aop-loggers</artifactId>
+  <version>1.1.4</version>
+</dependency>
+```
+
+# About
 
 `I'm AOP Loggers` is a handy and configurable set of annotation-based loggers
 for [Spring Boot](https://spring.io/projects/spring-boot) that can log every execution of a method
@@ -13,10 +25,10 @@ programming (AOP).
 
 The table below outlines the version that is compatible with Spring Boot.
 
-| I'm AOP Loggers | Spring Boot |
-|-----------------|-------------|
-| 1.1             | 3.0, 3.1    | 
-| 1.0             | 2.7         |
+| I'm AOP Loggers | Spring Boot   |
+|-----------------|---------------|
+| 1.1             | 3.0, 3.1, 3.2 | 
+| 1.0             | 2.7           |
 
 # Feature
 

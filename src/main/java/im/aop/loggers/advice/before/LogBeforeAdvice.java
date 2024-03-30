@@ -17,8 +17,8 @@ public class LogBeforeAdvice {
   @Autowired
   private LogBeforeService logBeforeService;
 
-  @Pointcut("execution(public * *(..))")
-  void publicMethod() {
+  @Pointcut("execution(* *(..))")
+  void allMethods() {
   }
 
   @Pointcut("execution(String *.toString())")
@@ -30,7 +30,7 @@ public class LogBeforeAdvice {
   }
 
   @Before(
-      value = "publicMethod() && logBeforeMethodContext(logBefore)",
+      value = "allMethods() && logBeforeMethodContext(logBefore)",
       argNames = "joinPoint, logBefore")
   void logBeforeMethodContext(final JoinPoint joinPoint, final LogBefore logBefore) {
     logBefore(joinPoint, logBefore);
@@ -41,7 +41,7 @@ public class LogBeforeAdvice {
   }
 
   @Before(
-      value = "publicMethod() && !toStringMethod() && logBeforeClassContext(logBefore)",
+      value = "allMethods() && !toStringMethod() && logBeforeClassContext(logBefore)",
       argNames = "joinPoint, logBefore")
   void logBeforeClassContext(final JoinPoint joinPoint, final LogBefore logBefore) {
     logBefore(joinPoint, logBefore);

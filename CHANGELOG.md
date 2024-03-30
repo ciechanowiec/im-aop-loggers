@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.1.4] - 2024-03-30
+- The aspects provided by the library will now be executed not only for methods with `public`, but for all methods, regardless of their visibility.
 
 ## [1.1.3] - 2023-08-30
 

@@ -17,8 +17,8 @@ public class LogAroundAdvice {
   @Autowired
   private LogAroundService logAroundService;
 
-  @Pointcut("execution(public * *(..))")
-  void publicMethod() {
+  @Pointcut("execution(* *(..))")
+  void allMethods() {
   }
 
   @Pointcut("execution(String *.toString())")
@@ -30,7 +30,7 @@ public class LogAroundAdvice {
   }
 
   @Around(
-      value = "publicMethod() && logAroundMethodContext(logAround)",
+      value = "allMethods() && logAroundMethodContext(logAround)",
       argNames = "joinPoint, logAround")
   Object logAroundMethodContext(final ProceedingJoinPoint joinPoint, final LogAround logAround)
       throws Throwable {
@@ -42,7 +42,7 @@ public class LogAroundAdvice {
   }
 
   @Around(
-      value = "publicMethod() && !toStringMethod() && logAroundClassContext(logAround)",
+      value = "allMethods() && !toStringMethod() && logAroundClassContext(logAround)",
       argNames = "joinPoint, logAround")
   Object logAroundClassContext(final ProceedingJoinPoint joinPoint, final LogAround logAround)
       throws Throwable {

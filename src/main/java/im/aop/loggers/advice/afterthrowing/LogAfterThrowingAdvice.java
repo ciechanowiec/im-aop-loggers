@@ -17,8 +17,8 @@ public class LogAfterThrowingAdvice {
   @Autowired
   private LogAfterThrowingService logAfterThrowingService;
 
-  @Pointcut("execution(public * *(..))")
-  void publicMethod() {
+  @Pointcut("execution(* *(..))")
+  void allMethods() {
   }
 
   @Pointcut("execution(String *.toString())")
@@ -30,7 +30,7 @@ public class LogAfterThrowingAdvice {
   }
 
   @AfterThrowing(
-      value = "publicMethod() && logAfterThrowingMethodContext(logAfterThrowing)",
+      value = "allMethods() && logAfterThrowingMethodContext(logAfterThrowing)",
       argNames = "joinPoint, logAfterThrowing, exception",
       throwing = "exception")
   void logAfterThrowingMethodContext(
@@ -46,7 +46,7 @@ public class LogAfterThrowingAdvice {
 
   @AfterThrowing(
       value =
-          "publicMethod() && !toStringMethod() && logAfterThrowingClassContext(logAfterThrowing)",
+          "allMethods() && !toStringMethod() && logAfterThrowingClassContext(logAfterThrowing)",
       argNames = "joinPoint, logAfterThrowing, exception",
       throwing = "exception")
   void logAfterThrowingClassContext(
